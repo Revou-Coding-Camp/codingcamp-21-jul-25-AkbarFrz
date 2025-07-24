@@ -1,3 +1,4 @@
+/* General Reset */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -9,6 +10,7 @@ body {
   height: 100vh;
 }
 
+/* Container Styling */
 .container {
   background-color: #1e293b;
   padding: 30px;
@@ -23,6 +25,7 @@ h1 {
   color: #d1d5db;
 }
 
+/* Input Section */
 .input-group {
   display: flex;
   gap: 10px;
@@ -48,6 +51,7 @@ h1 {
   cursor: pointer;
 }
 
+/* Action Buttons */
 .actions {
   display: flex;
   justify-content: space-between;
@@ -64,6 +68,7 @@ h1 {
   font-weight: bold;
 }
 
+/* Table Styling */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -83,25 +88,19 @@ th {
 }
 
 td button {
-  padding: 5px 8px;
-  margin: 0 2px;
-  font-size: 12px;
+  padding: 5px 10px;
+  background-color: #ef4444;
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-td button:nth-child(1) { background-color: #10b981; color: white; }  /* Complete */
-td button:nth-child(2) { background-color: #facc15; color: black; }  /* Edit */
-td button:nth-child(3) { background-color: #ef4444; color: white; }  /* Delete */
-
+/* Status Button Styling */
 .status-btn {
   background-color: #facc15;
   color: black;
   font-weight: bold;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
 }
 
 .status-btn.completed {
@@ -109,6 +108,7 @@ td button:nth-child(3) { background-color: #ef4444; color: white; }  /* Delete *
   color: white;
 }
 
+/* No Task Row */
 .no-task {
   text-align: center;
   color: #9ca3af;
