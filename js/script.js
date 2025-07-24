@@ -5,7 +5,7 @@ const todoList = document.getElementById("todo-list");
 const deleteAllBtn = document.getElementById("delete-all-btn");
 const filterBtn = document.getElementById("filter-btn");
 
-let filterStatus = "all"; // Filter: all, pending, completed
+let filterStatus = "all"; // all | pending | completed
 
 function addTask() {
   const taskText = todoInput.value.trim();
@@ -24,18 +24,42 @@ function addTask() {
   const tdStatus = document.createElement("td");
   const statusBtn = document.createElement("button");
   statusBtn.textContent = "Pending";
-  statusBtn.classList.add("status-btn");
-  statusBtn.onclick = () => {
-    statusBtn.textContent =
-      statusBtn.textContent === "Pending" ? "Completed" : "Pending";
-    applyFilter(); // Re-apply filter when status changes
-  };
+  statusBtn.className = "status-btn";
   tdStatus.appendChild(statusBtn);
 
   const tdActions = document.createElement("td");
+
+  // Complete Button
+  const completeBtn = document.createElement("button");
+  completeBtn.textContent = "Complete";
+  completeBtn.onclick = () => {
+    if (statusBtn.textContent === "Pending") {
+      statusBtn.textContent = "Completed";
+      statusBtn.classList.add("completed");
+    } else {
+      statusBtn.textContent = "Pending";
+      statusBtn.classList.remove("completed");
+    }
+    applyFilter();
+  };
+
+  // Edit Button
+  const editBtn = document.createElement("button");
+  editBtn.textContent = "Edit";
+  editBtn.onclick = () => {
+    const newTask = prompt("Edit task:", tdTask.textContent);
+    const newDate = prompt("Edit due date (YYYY-MM-DD):", tdDate.textContent);
+    if (newTask !== null && newTask.trim() !== "") tdTask.textContent = newTask.trim();
+    if (newDate !== null && newDate !== "") tdDate.textContent = newDate;
+  };
+
+  // Delete Button
   const delBtn = document.createElement("button");
   delBtn.textContent = "Delete";
   delBtn.onclick = () => removeTask(tr);
+
+  tdActions.appendChild(completeBtn);
+  tdActions.appendChild(editBtn);
   tdActions.appendChild(delBtn);
 
   tr.appendChild(tdTask);
@@ -43,7 +67,6 @@ function addTask() {
   tr.appendChild(tdStatus);
   tr.appendChild(tdActions);
 
-  // Remove "No task found" if exists
   if (todoList.querySelector(".no-task")) {
     todoList.innerHTML = "";
   }
@@ -53,7 +76,7 @@ function addTask() {
   todoInput.value = "";
   dueDateInput.value = "";
 
-  applyFilter(); // Reapply filter after adding task
+  applyFilter();
 }
 
 function removeTask(rowElement) {
@@ -77,29 +100,22 @@ function toggleFilter() {
 
 function applyFilter() {
   const rows = todoList.querySelectorAll("tr");
+  let visibleCount = 0;
+
   rows.forEach((row) => {
-    const statusBtn = row.querySelector(".status-btn");
-    if (!statusBtn) return; // skip "no task found" row
+    const status = row.querySelector(".status-btn")?.textContent.toLowerCase();
+    if (!status) return;
 
-    const status = statusBtn.textContent.toLowerCase();
-
-    if (
+    const match =
       filterStatus === "all" ||
       (filterStatus === "pending" && status === "pending") ||
-      (filterStatus === "completed" && status === "completed")
-    ) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
+      (filterStatus === "completed" && status === "completed");
+
+    row.style.display = match ? "" : "none";
+    if (match) visibleCount++;
   });
 
-  // Show 'No task found' if no visible tasks
-  const visibleRows = [...todoList.querySelectorAll("tr")].filter(
-    (row) => row.style.display !== "none"
-  );
-
-  if (visibleRows.length === 0) {
+  if (visibleCount === 0) {
     todoList.innerHTML = `<tr><td colspan="4" class="no-task">No task found</td></tr>`;
   }
 }
