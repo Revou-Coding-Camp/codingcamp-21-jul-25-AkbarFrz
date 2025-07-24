@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Todo List</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="CSS/style.css" />
   <script src="js/script.js" defer></script>
 </head>
+
 <body>
+
   <div class="container">
     <h1>Todo List</h1>
 
@@ -18,7 +21,7 @@
     </div>
 
     <div class="actions">
-      <button id="filter-btn">FILTER (ALL)</button>
+      <button id="filter-btn">FILTER</button>
       <button id="delete-all-btn">DELETE ALL</button>
     </div>
 
@@ -31,12 +34,64 @@
           <th>Actions</th>
         </tr>
       </thead>
+      
       <tbody id="todo-list">
         <tr><td colspan="4" class="no-task">No task found</td></tr>
       </tbody>
     </table>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const addBtn = document.getElementById("add-btn");
+    const todoInput = document.getElementById("todo-input");
+    const dueDateInput = document.getElementById("due-date");
+    const todoList = document.getElementById("todo-list");
+    const deleteAllBtn = document.getElementById("delete-all-btn");
+
+    function createTodoRow(task, dueDate) {
+      const tr = document.createElement("tr");
+
+      const tdTask = document.createElement("td");
+      tdTask.textContent = task;
+
+      const tdDate = document.createElement("td");
+      tdDate.textContent = dueDate;
+
+      const tdStatus = document.createElement("td");
+      tdStatus.textContent = "Pending";
+
+      const tdActions = document.createElement("td");
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Delete";
+      delBtn.onclick = () => tr.remove();
+
+      tdActions.appendChild(delBtn);
+      tr.appendChild(tdTask);
+      tr.appendChild(tdDate);
+      tr.appendChild(tdStatus);
+      tr.appendChild(tdActions);
+
+      return tr;
+    }
+
+    addBtn.onclick = () => {
+      const task = todoInput.value.trim();
+      const date = dueDateInput.value;
+      if (task && date) {
+        if (todoList.querySelector(".no-task")) {
+          todoList.innerHTML = "";
+        }
+        const newRow = createTodoRow(task, date);
+        todoList.appendChild(newRow);
+        todoInput.value = "";
+        dueDateInput.value = "";
+      }
+    };
+
+    deleteAllBtn.onclick = () => {
+      todoList.innerHTML = '<tr><td colspan="4" class="no-task">No task found</td></tr>';
+    };
+  </script>
+
 </body>
 </html>
