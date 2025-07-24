@@ -83,3 +83,30 @@ th {
   text-align: center;
   color: #9ca3af;
 }
+
+td button {
+  padding: 5px 8px;
+  margin: 0 2px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+td button:nth-child(1) { background-color: #10b981; color: white; } /* Complete */
+td button:nth-child(2) { background-color: #facc15; color: black; } /* Edit */
+td button:nth-child(3) { background-color: #ef4444; color: white; } /* Delete */
+
+.status-btn {
+  background-color: #facc15;
+  color: black;
+  font-weight: bold;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.status-btn.completed {
+  background-color: #10b981;
+  color: white;
+}
